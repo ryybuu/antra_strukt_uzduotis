@@ -3,11 +3,11 @@
 #include <format>
 using namespace std;
 
-void stars () {
+void stars() {
     for (int i = 1; i < 50; i++) {
         cout << "*";
     }
-    cout<<endl;
+    cout << endl;
 }
 
 void main_menu() {
@@ -28,10 +28,10 @@ void main_menu() {
 
 
 int main() {
-
     string mokiniai[100] = {};
     int pazymiai[100][10] = {};
     int ivestis;
+    int ivestu_mokiniu_kiekis = 0;
 
 
     do {
@@ -39,7 +39,7 @@ int main() {
         cin >> ivestis;
 
         switch (ivestis) {
-            case 1:
+            case 1: {
                 string vardas;
                 int mokinio_indeksas = -1;
                 int pazymiu_kiekis;
@@ -50,6 +50,7 @@ int main() {
                     if (mokiniai[i] == "") {
                         mokiniai[i] = vardas;
                         mokinio_indeksas = i;
+                        ivestu_mokiniu_kiekis++;
                         break;
                     }
                 }
@@ -59,26 +60,39 @@ int main() {
                     break;
                 }
 
+                do {
+                    cout << "Kiek pazymiu noresite ivesti? (1-10)" << endl;
+                    cin >> pazymiu_kiekis;
+                    if (pazymiu_kiekis > 10 || pazymiu_kiekis < 1)
+                        cout << "Neteisinga ivestis. Kiekis turi buti sveikas skaicius nuo 1 iki 10" << endl;
+                } while (pazymiu_kiekis > 10 || pazymiu_kiekis < 1);
+
+                for (int j = 0; j < pazymiu_kiekis; j++) {
                     do {
-                        cout << "Kiek pazymiu noresite ivesti? (1-10)" << endl;
-                        cin >> pazymiu_kiekis;
-                        if (pazymiu_kiekis > 10 || pazymiu_kiekis < 1) cout << "Neteisinga ivestis. Kiekis turi buti sveikas skaicius nuo 1 iki 10" << endl;
-
-                    } while (pazymiu_kiekis > 10 || pazymiu_kiekis < 1);
-
-                        for (int j = 0; j < pazymiu_kiekis; j++) {
-                            do {
-                                cout << format("Iveskite {} pazymi", j+1) << endl;
-                                cin >> pazymys;
-                                if (pazymys > 10 || pazymys < 1) {
-                                    cout << "Pazymys turi buti sveikas skaicius nuo 1 iki 10" << endl;
-                                }
-                            } while (pazymys > 10 || pazymys < 1);
-                                pazymiai[mokinio_indeksas][j] = pazymys;
+                        cout << format("Iveskite {} pazymi", j + 1) << endl;
+                        cin >> pazymys;
+                        if (pazymys > 10 || pazymys < 1) {
+                            cout << "Pazymys turi buti sveikas skaicius nuo 1 iki 10" << endl;
                         }
+                    } while (pazymys > 10 || pazymys < 1);
+                    pazymiai[mokinio_indeksas][j] = pazymys;
+                }
+                break;
+            }
+            case 2:
+                cout << "Mokiniu vardai ir ju pazymiai:" << endl;
+                for (int i = 0; i < ivestu_mokiniu_kiekis; i++) {
+                    cout << mokiniai[i] << " ";
+                        for (int j = 0; j < 10; j++) {
+                            if (pazymiai[i][j] == 0) {
+                                break;
+                            }
+                            cout << pazymiai[i][j] << " ";
+                        }
+                    cout << endl;
+                }
                 break;
         }
-
     } while (ivestis != 7);
 
 

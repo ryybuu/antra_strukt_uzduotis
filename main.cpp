@@ -92,6 +92,34 @@ int main() {
                     cout << endl;
                 }
                 break;
+            case 3:
+                if (ivestu_mokiniu_kiekis == 0) {
+                    cout << "Sarasas yra tuscias, mokiniu patikrinti negalima. Griztama i pagrindini meniu..." << endl;
+                    break;
+                }
+
+                cout << "Iveskite mokinio numeri arba 0 jeigu norite grizti i pagrindini meniu " << endl;
+                int mokinio_numeris;
+
+                do {
+                    cin >> mokinio_numeris;
+                    if (mokinio_numeris == 0) {
+                        break;
+                    } else if (mokinio_numeris < 1 || mokinio_numeris > 100) {
+                            cout << "Neteisinga ivestis. Mokinio numeris turi buti nuo 1 iki 100. Bandykite dar karta arba iveskite 0, kad iseiti" << endl;
+                        } else if(mokiniai[mokinio_numeris-1] == "") {
+                                cout << "Mokinys tokiu numeriu negzistuoja. Bandykite dar karta arba iveskite 0, kad iseiti"  << endl;
+                            } else {
+                                    cout << "Mokinys " << mokiniai[mokinio_numeris-1] << endl << "Pazymiai: ";
+                                    for (int i = 0; i < 10; i++) {
+                                        if (pazymiai[mokinio_numeris-1][i] != 0)
+                                            cout << pazymiai[mokinio_numeris-1][i] << " ";
+                                    }
+                                    cout << endl;
+                                break;
+                            }
+                } while (true);
+                break;
         }
     } while (ivestis != 7);
 

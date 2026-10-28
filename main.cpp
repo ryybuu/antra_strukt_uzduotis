@@ -3,6 +3,10 @@
 #include <format>
 using namespace std;
 
+bool nera_mokiniu(int ivestu_mokiniu_kiekis) {
+   return ivestu_mokiniu_kiekis == 0;
+}
+
 void stars() {
     for (int i = 1; i < 50; i++) {
         cout << "*";
@@ -83,42 +87,70 @@ int main() {
                 cout << "Mokiniu vardai ir ju pazymiai:" << endl;
                 for (int i = 0; i < ivestu_mokiniu_kiekis; i++) {
                     cout << mokiniai[i] << " ";
-                        for (int j = 0; j < 10; j++) {
-                            if (pazymiai[i][j] == 0) {
-                                break;
-                            }
-                            cout << pazymiai[i][j] << " ";
+                    for (int j = 0; j < 10; j++) {
+                        if (pazymiai[i][j] == 0) {
+                            break;
                         }
+                        cout << pazymiai[i][j] << " ";
+                    }
                     cout << endl;
                 }
                 break;
             case 3:
-                if (ivestu_mokiniu_kiekis == 0) {
+                if (nera_mokiniu(ivestu_mokiniu_kiekis)) {
                     cout << "Sarasas yra tuscias, mokiniu patikrinti negalima. Griztama i pagrindini meniu..." << endl;
                     break;
                 }
 
-                cout << "Iveskite mokinio numeri arba 0 jeigu norite grizti i pagrindini meniu " << endl;
+                cout << format(
+                    "Iveskite mokinio numeri nuo 1 iki {} arba 0 jeigu norite grizti i pagrindini meniu.",
+                    ivestu_mokiniu_kiekis) << endl;
                 int mokinio_numeris;
 
                 do {
                     cin >> mokinio_numeris;
                     if (mokinio_numeris == 0) {
                         break;
-                    } else if (mokinio_numeris < 1 || mokinio_numeris > 100) {
-                            cout << "Neteisinga ivestis. Mokinio numeris turi buti nuo 1 iki 100. Bandykite dar karta arba iveskite 0, kad iseiti" << endl;
-                        } else if(mokiniai[mokinio_numeris-1] == "") {
-                                cout << "Mokinys tokiu numeriu negzistuoja. Bandykite dar karta arba iveskite 0, kad iseiti"  << endl;
-                            } else {
-                                    cout << "Mokinys " << mokiniai[mokinio_numeris-1] << endl << "Pazymiai: ";
-                                    for (int i = 0; i < 10; i++) {
-                                        if (pazymiai[mokinio_numeris-1][i] != 0)
-                                            cout << pazymiai[mokinio_numeris-1][i] << " ";
-                                    }
-                                    cout << endl;
-                                break;
-                            }
+                    } else if (mokinio_numeris < 1 || mokinio_numeris > ivestu_mokiniu_kiekis) {
+                        cout << format(
+                            "Neteisinga ivestis. Mokinio numeris turi buti nuo 1 iki {}. Bandykite dar karta arba iveskite 0, kad iseiti",
+                            ivestu_mokiniu_kiekis) << endl;
+                    } else {
+                        cout << "Mokinys " << mokiniai[mokinio_numeris - 1] << endl << "Pazymiai: ";
+                        for (int i = 0; i < 10; i++) {
+                            if (pazymiai[mokinio_numeris - 1][i] != 0)
+                                cout << pazymiai[mokinio_numeris - 1][i] << " ";
+                        }
+                        cout << endl;
+                        break;
+                    }
                 } while (true);
+                break;
+            case 5:
+                if (nera_mokiniu(ivestu_mokiniu_kiekis)) {
+                    cout << "Sarasas yra tuscias, vidurkiu suskaiciuoti negalima. Griztama i pagrindini meniu..." << endl;
+                    break;
+                }
+
+                int mokinio_numerio_ivestis;
+                int pazymiu_kiekis = 0;
+                double mokinio_pazymiu_suma = 0;
+
+                do {
+                    cout << format("Iveskite mokinio numeri nuo 1 iki {}.", ivestu_mokiniu_kiekis) << endl;
+                    cin >> mokinio_numerio_ivestis;
+                    if (mokinio_numerio_ivestis < 1 || mokinio_numerio_ivestis > ivestu_mokiniu_kiekis) cout << "Klaida!" << endl;
+                } while (mokinio_numerio_ivestis < 1 || mokinio_numerio_ivestis > ivestu_mokiniu_kiekis);
+
+                for (int i = 0; i < 10; i++) {
+                        if (pazymiai[mokinio_numerio_ivestis-1][i] != 0) {
+                            mokinio_pazymiu_suma += pazymiai[mokinio_numerio_ivestis-1][i];
+                            pazymiu_kiekis++;
+                        }
+                    }
+
+                cout << format("Mokinio(es) {0} pazymiu vidurkis yra {1:.2f}.", mokiniai[mokinio_numerio_ivestis-1], mokinio_pazymiu_suma / pazymiu_kiekis) << endl;
+
                 break;
         }
     } while (ivestis != 7);

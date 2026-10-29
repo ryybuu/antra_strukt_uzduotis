@@ -117,6 +117,7 @@ int main() {
                 do {
                     cin >> mokinio_numeris;
                     if (mokinio_numeris == 0) {
+                        cout << "Griztama i pagrindini meniu..." << endl;
                         break;
                     } else if (mokinio_numeris < 1 || mokinio_numeris > ivestu_mokiniu_kiekis) {
                         cout << format(
@@ -166,7 +167,8 @@ int main() {
                     }
                     cout << endl;
                     int pazymio_numeris;
-                    cout << "Iveskite pazymio, kuri norite atnaujinti, eiles numeri arba 0 jeigu norite grizti i meniu:" << endl;
+                    cout << "Iveskite pazymio, kuri norite atnaujinti, eiles numeri arba 0 jeigu norite grizti i meniu:"
+                            << endl;
                     do {
                         cin >> pazymio_numeris;
                         if (pazymio_numeris == 0) cout << "Griztama i pagrindini meniu..." << endl;
@@ -178,12 +180,13 @@ int main() {
 
                     if (pazymio_numeris == 0) break;
 
-                    cout << "Iveskite pazymi kuriuo norite atnaujinti esama arba 0 jeigu norite grizti i meniu:" << endl;
+                    cout << "Iveskite pazymi kuriuo norite atnaujinti esama arba 0 jeigu norite grizti i meniu:" <<
+                            endl;
                     int naujas_pazymys;
                     do {
                         cin >> naujas_pazymys;
                         if (naujas_pazymys == 0) cout << "Griztama i pagrindini meniu..." << endl;
-                        else if (naujas_pazymys < 1|| naujas_pazymys > 10) {
+                        else if (naujas_pazymys < 1 || naujas_pazymys > 10) {
                             cout << "Pazymys turi buti sveikas skaicius nuo 1 iki 10." << endl;
                         }
                     } while (naujas_pazymys < 0 || naujas_pazymys > 10);
@@ -232,6 +235,45 @@ int main() {
                 }
                 break;
             }
+            case 6: {
+                if (nera_mokiniu(ivestu_mokiniu_kiekis)) {
+                    cout << "Sarasas yra tuscias, mokiniu pasalinti negalima. Griztama i pagrindini meniu..." <<
+                            endl;
+                    break;
+                }
+                int salinamo_mokinio_ivestis;
+                cout << format("Iveskite mokinio, kuri noresite pasalinti, numeri nuo 1 iki {} arba 0, kad grizti i meniu.", ivestu_mokiniu_kiekis) << endl;
+                do {
+                    cin >> salinamo_mokinio_ivestis;
+                    if (salinamo_mokinio_ivestis == 0) {
+                        cout << "Griztama i pagrindini meniu..." << endl;
+                    } else if (salinamo_mokinio_ivestis < 1 || salinamo_mokinio_ivestis > ivestu_mokiniu_kiekis) {
+                        cout << format("Iveskite skaiciu nuo 1 iki {}", ivestu_mokiniu_kiekis) << endl;
+                    }
+                } while (salinamo_mokinio_ivestis < 0 || salinamo_mokinio_ivestis > ivestu_mokiniu_kiekis);
+
+                if (salinamo_mokinio_ivestis == 0) break;
+
+                for (int i = salinamo_mokinio_ivestis - 1; i < ivestu_mokiniu_kiekis - 1; i++) {
+                    mokiniai[i] = mokiniai[i+1];
+                    ivestu_pazymiu_kiekis[i] = ivestu_pazymiu_kiekis[i+1];
+                    for (int j = 0; j < 10; j++) {
+                        pazymiai[i][j] = pazymiai[i+1][j];
+                    }
+                }
+
+                mokiniai[ivestu_mokiniu_kiekis - 1] = "";
+                ivestu_pazymiu_kiekis[ivestu_mokiniu_kiekis - 1] = 0;
+
+                for (int i = 0; i < 10; i++) {
+                    pazymiai[ivestu_mokiniu_kiekis - 1][i] = 0;
+                }
+
+                ivestu_mokiniu_kiekis--;
+
+                cout << "Mokinys pasalintas." << endl;
+                    break;
+                }
         }
     } while (ivestis != 7);
 
